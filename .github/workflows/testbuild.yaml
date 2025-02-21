@@ -1,0 +1,40 @@
+name: Build Check
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22"
+
+      - name: Create .env file for build
+        run: |
+          cat > .env <<EOF
+          AUTH_SECRET=0000
+          DATABASE_URL=0000
+          NEXT_PUBLIC_SUPABASE_URL=0000
+          NEXT_PUBLIC_SUPABASE_ANON_KEY=0000
+          SUPABASE_SERVICE_ROLE_KEY=0000
+          GOOGLE_CLIENT_ID=0000
+          GOOGLE_CLIENT_SECRET=0000
+          DATABASE_URL=0000
+          DIRECT_URL=0000
+          EOF
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run build
+        run: npm run build
