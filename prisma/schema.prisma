@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
+}
+
+model Post {
+    id        Int      @id @default(autoincrement())
+    name      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    createdBy   User   @relation(fields: [createdById], references: [id])
+    createdById String
+
+    @@index([name])
+}
+
+// Necessary for Next auth
+model Account {
+    id                       String  @id @default(cuid())
+    userId                   String
+    type                     String
+    provider                 String
+    providerAccountId        String
+    refresh_token            String? // @db.Text
+    access_token             String? // @db.Text
+    expires_at               Int?
+    token_type               String?
+    scope                    String?
+    id_token                 String? // @db.Text
+    session_state            String?
+    user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    refresh_token_expires_in Int?
+
+    @@unique([provider, providerAccountId])
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+    id                String            @id @default(cuid())
+    name              String?
+    email             String?           @unique
+    emailVerified     DateTime?
+    image             String?
+    dob               DateTime? // Added field for date of birth
+    educationalStatus String? // Added field for educational status
+    accounts          Account[]
+    sessions          Session[]
+    posts             Post[]
+    searchHistory     SearchHistory[] // Relation to search history
+    votes             Vote[] // Relation to votes
+    testScores        TestScore[] // Relation to test scores
+    discussionForums  DiscussionForum[] // Relation to discussion forum data
+}
+
+model SearchHistory {
+    id        String   @id @default(cuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    query     String
+    timestamp DateTime @default(now())
+}
+
+model Vote {
+    id        String   @id @default(cuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    voteType  String // e.g., 'upvote' or 'downvote'
+    timestamp DateTime @default(now())
+}
+
+model TestScore {
+    id        String   @id @default(cuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    score     Int
+    testName  String
+    timestamp DateTime @default(now())
+}
+
+model DiscussionForum {
+    id        String   @id @default(cuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    title     String
+    comments  String[]
+    timestamp DateTime @default(now())
+}
+
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
+}
+
+model TrendingTopic {
+    id        String   @id @default(cuid())
+    topic     String
+    count     Int      @default(0)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
