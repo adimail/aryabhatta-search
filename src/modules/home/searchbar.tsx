@@ -7,6 +7,7 @@ import { FaChevronRight } from "react-icons/fa";
 import { toast } from "sonner";
 import BadWordsNext from "bad-words-next";
 import en from "bad-words-next/lib/en";
+import Link from "next/link";
 
 export const SearchBar = () => {
   const [query, setQuery] = useState("");
@@ -72,9 +73,11 @@ export const SearchBar = () => {
         <button className="rounded-lg bg-white px-4 py-2 shadow">
           Courses
         </button>
-        <button className="rounded-lg bg-white px-4 py-2 shadow">
-          Tests
-        </button>
+        <Link href="/test">
+          <button className="rounded-lg bg-white px-4 py-2 shadow">
+            Tests
+          </button>
+        </Link>
         <button className="rounded-lg bg-white px-4 py-2 shadow">
           Research Papers
         </button>
