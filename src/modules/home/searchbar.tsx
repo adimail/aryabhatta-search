@@ -73,10 +73,10 @@ export const SearchBar = () => {
           Courses
         </button>
         <button className="rounded-lg bg-white px-4 py-2 shadow">
-          Research
+          Tests
         </button>
         <button className="rounded-lg bg-white px-4 py-2 shadow">
-          Articles
+          Research Papers
         </button>
       </section>
     </div>
