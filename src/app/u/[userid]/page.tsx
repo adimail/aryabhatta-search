@@ -16,5 +16,5 @@ export async function generateMetadata({
 
 export default async function UserPage({ params }: UserPageProps) {
   const { userid } = await params;
-  return <main className="container mx-auto p-5">{userid}</main>;
+  return <main className="container mx-auto p-5">User ID: {userid}</main>;
 }

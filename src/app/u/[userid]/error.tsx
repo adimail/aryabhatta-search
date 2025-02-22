@@ -18,10 +18,10 @@ export default function SearchError({
     <main className="container mx-auto px-4 py-8">
       <div className="rounded-lg border border-red-200 bg-red-50 p-4">
         <h2 className="mb-2 text-lg font-semibold text-red-800">
-          Something went wrong!
+          Something went wrong while loading the user data!
         </h2>
         <p className="mb-4 text-red-600">
-          There was an error loading the search results.
+          There was an error loading the user data.
         </p>
         <button
           onClick={reset}
