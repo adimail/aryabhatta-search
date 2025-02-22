@@ -6,6 +6,7 @@ import en from "bad-words-next/lib/en";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/modules/search/sidebar";
 import { Searchbar } from "@/modules/search";
+import { getGroqChatCompletion } from "@/modules/search/llm";
 
 interface SearchPageProps {
   params: Promise<{ query: string }>;
@@ -29,14 +30,16 @@ export default async function SearchPage({ params }: SearchPageProps) {
     throw new Error("Search query contains offensive language.");
   }
 
+  const summary = await getGroqChatCompletion({ query: decodedQuery });
+
   return (
     <main className="container mx-auto p-5">
       <SidebarProvider>
-        <AppSidebar query={decodedQuery} />
+        <AppSidebar query={decodedQuery} summary={summary} />
         <main>
           <Searchbar />
           <SidebarTrigger />
-          <SearchResults query={decodedQuery} />
+          <SearchResults query={decodedQuery} summary={summary} />
         </main>
       </SidebarProvider>
     </main>

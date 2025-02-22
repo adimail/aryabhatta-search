@@ -27,7 +27,7 @@ export const SearchBar = () => {
     if (trimmedQuery) {
       if (session) {
         try {
-          await fetch("/api/search-history", {
+          await fetch(`/api/history/${session.user.id}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ query: trimmedQuery }),
