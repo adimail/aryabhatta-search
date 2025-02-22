@@ -24,6 +24,7 @@ import {
 
 interface AppSidebarProps {
   query: string;
+  summary: any;
 }
 
 const navigationItems = [
@@ -61,16 +62,17 @@ const navigationItems = [
   },
 ];
 
-export function AppSidebar({ query }: AppSidebarProps) {
+export function AppSidebar({ query, summary }: AppSidebarProps) {
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="md:mt-32">
-            Search Results for: {query}
+            {query}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              <p>{summary ? summary.choices[0]?.message.content : ""}</p>
               {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   {item.subItems ? (

@@ -31,7 +31,7 @@ jobs:
           GOOGLE_CLIENT_SECRET=0000
           DATABASE_URL=http://localhost:5432/dummy
           DIRECT_URL=0000
-          GROQ_API_ID=0000
+          GROQ_API_KEY=0000
           EOF
 
       - name: Install dependencies
