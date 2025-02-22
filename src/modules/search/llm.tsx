@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import { generatePrompt } from "@/utils/promt";
 import Groq from "groq-sdk";
 import * as config from "@/server/config";
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
@@ -10,7 +11,7 @@ export async function getGroqChatCompletion({ query }: { query: string }) {
     messages: [
       {
         role: "user",
-        content: `Summarize the following query in a clear and concise manner, preserving key details while ensuring brevity: ${query}`,
+        content: generatePrompt(query, 20),
       },
     ],
     model: config.LLM_MODEL,
@@ -18,19 +19,16 @@ export async function getGroqChatCompletion({ query }: { query: string }) {
   });
 
   console.log(response);
-  return response;
+  return response ?? "";
 }
 
 
+export const SearchResults = async ({ summary }: { summary: string }) => {
 
 
-export const SearchResults = async ({ query }: { query: string }) => {
-  const response = await getGroqChatCompletion({ query });
-
-  console.log(response);
   return (
     <div className="mt-5 w-full space-y-4">
-      {response ? response.choices[0]?.message.content : ""}
+      {summary}
     </div>
   );
 };

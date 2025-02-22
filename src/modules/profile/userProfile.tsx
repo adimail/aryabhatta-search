@@ -29,8 +29,11 @@ interface EditableUserInfo {
 }
 
 const EDUCATIONAL_STATUS_OPTIONS = [
+  { value: "Elementary School", label: "Elementary School" },
+  { value: "Middle School", label: "Middle School" },
   { value: "High School", label: "High School" },
-  { value: "Undergraduate", label: "Undergraduate" },
+  { value: "College", label: "College" },
+  { value: "University", label: "University" },
   { value: "Graduate", label: "Graduate" },
   { value: "Post-Graduate", label: "Post-Graduate" },
 ];
@@ -112,11 +115,11 @@ export function UserProfile({ userid }: UserProfileProps) {
           alt="User Profile"
           width={200}
           height={200}
-          className="mx-auto rounded-full"
+          className="mx-auto rounded-full mb-10"
         />
       )}
       {isOwnProfile && (
-        <div className="mx-auto my-10 flex w-full justify-center">
+        <div className="mx-auto mb-10 flex w-full justify-center">
           <Button
             onClick={() => setIsEditing(!isEditing)}
             variant={isEditing ? "outline" : "default"}

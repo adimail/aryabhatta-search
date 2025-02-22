@@ -10,12 +10,11 @@ interface SearchResultsProps {
 }
 
 export const SearchResults = ({ query, summary }: SearchResultsProps) => {
-
   return (
     <div className="mt-5 w-full space-y-8">
 
       <LLMReact summary={summary} />
-      <GoogleSearch query={query} />
+      {/* <GoogleSearch query={query} /> */}
 
     </div>
   );
