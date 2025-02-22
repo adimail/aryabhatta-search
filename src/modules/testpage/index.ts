@@ -1,2 +1,2 @@
-export { TestPage } from "./test";
+export { MathFundamentalsCard } from "./test";
 export { Results } from "./results";
