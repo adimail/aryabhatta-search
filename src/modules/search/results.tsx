@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { env } from "@/env";
 import { useState, useEffect } from "react";
 import { GoogleSearch } from "./googlesearch";
 import { LLMReact } from "./llmreact";
@@ -21,15 +22,23 @@ export const SearchResults = ({ query, summary }: SearchResultsProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Replace with your SerpApi key
+  const SERP_API_KEY = env.SERP_API_KEY;
+
   useEffect(() => {
     const fetchYandexImages = async () => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await fetch(`/api/yandex-images?query=${encodeURIComponent(query)}`);
+        const response = await fetch(
+          `https://serpapi.com/search.json?engine=yandex_images&text=${encodeURIComponent(
+            query
+          )}&yandex_domain=yandex.com&api_key=${SERP_API_KEY}`
+        );
+
         if (!response.ok) {
-          throw new Error("Failed to fetch images from server");
+          throw new Error("Failed to fetch images from Yandex API");
         }
 
         const data = await response.json();
@@ -57,11 +66,14 @@ export const SearchResults = ({ query, summary }: SearchResultsProps) => {
     <div className="mt-5 w-full space-y-8">
       <LLMReact summary={summary} />
 
+      {/* Yandex Images Section */}
       <div className="yandex-images">
         <h2 className="text-xl font-bold mb-4">Images from Yandex</h2>
         {loading && <p>Loading images...</p>}
         {error && <p className="text-red-500">{error}</p>}
-        {!loading && !error && images.length === 0 && <p>No images found for "{query}"</p>}
+        {!loading && !error && images.length === 0 && (
+          <p>No images found for "{query}"</p>
+        )}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {images.map((image, index) => (
             <div key={index} className="border rounded overflow-hidden">
@@ -78,6 +90,7 @@ export const SearchResults = ({ query, summary }: SearchResultsProps) => {
         </div>
       </div>
 
+      {/* Uncomment if you still want Google Search */}
       {/* <GoogleSearch query={query} /> */}
     </div>
   );

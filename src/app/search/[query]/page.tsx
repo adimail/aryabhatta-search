@@ -33,15 +33,17 @@ export default async function SearchPage({ params }: SearchPageProps) {
   const summary = await getGroqChatCompletion({ query: decodedQuery });
 
   return (
-    <main className="container mx-auto p-5">
+    <div className="flex min-h-screen">
       <SidebarProvider>
-        <AppSidebar query={decodedQuery} summary={summary} />
-        <main>
-          <Searchbar />
-          <SidebarTrigger />
-          <SearchResults query={decodedQuery} summary={summary} />
-        </main>
+        <div className="flex flex-1">
+          <AppSidebar query={decodedQuery} summary={summary} />
+          <main className="flex-1 p-5 overflow-auto">
+            <Searchbar />
+            <SidebarTrigger />
+            <SearchResults query={decodedQuery} summary={summary} />
+          </main>
+        </div>
       </SidebarProvider>
-    </main>
+    </div>
   );
 }
