@@ -11,7 +11,7 @@ export const Nav = async () => {
         <Link href="/" className="flex items-center">
           <h1 className="text-lg font-bold md:text-2xl">Aryabhatta Search</h1>
         </Link>
-        <AuthButtons userImage={session?.user?.image} />
+        <AuthButtons session={session} />
       </div>
     </header>
   );
