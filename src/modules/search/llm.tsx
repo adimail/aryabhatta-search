@@ -11,7 +11,7 @@ export async function getGroqChatCompletion({ query }: { query: string }) {
     messages: [
       {
         role: "user",
-        content: generatePrompt(query, 20),
+        content: generatePrompt(query, 5),
       },
     ],
     model: config.LLM_MODEL,
