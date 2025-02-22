@@ -26,7 +26,7 @@ export const metadata: Metadata = {
       name: "Rishabh Kothari",
     },
     {
-      name: "Rohit",
+      name: "Rohit Kshirsagar",
     },
     {
       name: "Shreya Kulkarni",
