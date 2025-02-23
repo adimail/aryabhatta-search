@@ -1,107 +1,45 @@
-"use client";
-import React from "react";
+import { testsConfig } from "@/config/tests.config";
+import Link from "next/link";
 
-import { useState } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-
-export function MathFundamentalsCard() {
-    const [showQuiz, setShowQuiz] = useState(false);
-    const [answers, setAnswers] = useState<Record<number, string>>({});
-    const [submitted, setSubmitted] = useState(false);
-    const [score, setScore] = useState(0);
-
-    const questions = [
-        {
-            id: 1,
-            question: "What is the derivative of sin(x)?",
-            options: ["cos(x)", "-cos(x)", "sin(x)", "-sin(x)"],
-            correct: "cos(x)"
-        },
-        {
-            id: 2,
-            question: "Which equation represents a second-order differential equation?",
-            options: ["y' + y = 0", "y'' + 3y' + 2y = 0", "y + 3 = 0", "dy/dx = x + y"],
-            correct: "y'' + 3y' + 2y = 0"
-        },
-        {
-            id: 3,
-            question: "What is the integral of e^x?",
-            options: ["e^x + C", "x e^x", "e^x / x", "ln(x)"],
-            correct: "e^x + C"
-        },
-        {
-            id: 4,
-            question: "Which of the following is a Laplace transform of 1?",
-            options: ["1/s", "s", "e^s", "ln(s)"],
-            correct: "1/s"
-        },
-        {
-            id: 5,
-            question: "What is the Taylor series expansion of e^x at x = 0?",
-            options: ["1 + x + x^2/2! + x^3/3! + ...", "x + x^2/2 + x^3/3 + ...", "x^2 + x^4/2! + x^6/3! + ...", "1 - x + x^2 - x^3 + ..."],
-            correct: "1 + x + x^2/2! + x^3/3! + ..."
-        }
-    ];
-
-    const handleSelect = (id: number, option: string) => {
-        setAnswers(prev => ({ ...prev, [id]: option }));
-    };
-
-    const handleSubmit = () => {
-        let newScore = 0;
-        questions.forEach(q => {
-            if (answers[q.id] === q.correct) newScore += 1;
-        });
-        setScore(newScore);
-        setSubmitted(true);
-    };
-
-    return (
-        <div className="p-4">
-            <Card onClick={() => setShowQuiz(true)} className="cursor-pointer">
-                <CardHeader>
-                    <CardTitle>Mathematics Fundamentals</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p className="text-gray-600">Advanced Calculus: Comprehensive guide to differential equations and complex analysis</p>
-                </CardContent>
-            </Card>
-
-            {showQuiz && (
-                <div className="mt-4 p-4 border rounded-lg">
-                    {questions.map((q) => (
-                        <div key={q.id} className="mb-4">
-                            <p className="font-semibold">{q.question}</p>
-                            {q.options.map((opt) => (
-                                <label key={opt} className="block">
-                                    <input
-                                        type="radio"
-                                        name={`question-${q.id}`}
-                                        value={opt}
-                                        onChange={() => handleSelect(q.id, opt)}
-                                        disabled={submitted}
-                                    />
-                                    {opt}
-                                </label>
-                            ))}
-                        </div>
-                    ))}
-                    {!submitted && (
-                        <Button onClick={handleSubmit}>Submit</Button>
-                    )}
-                    {submitted && (
-                        <div className="mt-4">
-                            <p className="font-semibold">Score: {score} / {questions.length}</p>
-                            {questions.map(q => (
-                                <p key={q.id} className={`mt-2 ${answers[q.id] === q.correct ? 'text-green-600' : 'text-red-600'}`}>
-                                    {answers[q.id] !== q.correct && <span>Correct Answer: {q.correct}</span>}
-                                </p>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            )}
+export function TestsCards() {
+  return (
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {testsConfig.map((test) => (
+        <div
+          key={test.id}
+          className="rounded-lg border bg-white p-6 shadow-md transition-all hover:shadow-lg"
+        >
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-xl font-semibold">{test.subject}</h2>
+            <span
+              className={`rounded-full px-3 py-1 text-sm ${
+                test.difficulty === "Easy"
+                  ? "bg-green-100 text-green-800"
+                  : test.difficulty === "Medium"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : "bg-red-100 text-red-800"
+              }`}
+            >
+              {test.difficulty}
+            </span>
+          </div>
+          <h3 className="mb-2 text-lg font-medium text-gray-700">
+            {test.topic}
+          </h3>
+          <p className="mb-4 text-gray-600">{test.description}</p>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-gray-500">
+              Duration: {test.duration} minutes
+            </span>
+            <Link
+              href={`/tests/${test.id}`}
+              className="rounded-lg bg-blue-500 px-4 py-2 text-white transition-colors hover:bg-blue-600"
+            >
+              Start Test
+            </Link>
+          </div>
         </div>
-    );
+      ))}
+    </div>
+  );
 }

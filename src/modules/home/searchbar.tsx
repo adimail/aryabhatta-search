@@ -73,7 +73,7 @@ export const SearchBar = () => {
         <button className="rounded-lg bg-white px-4 py-2 shadow">
           Courses
         </button>
-        <Link href="/test">
+        <Link href="/tests">
           <button className="rounded-lg bg-white px-4 py-2 shadow">
             Tests
           </button>
