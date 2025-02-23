@@ -67,7 +67,7 @@ export const SearchResults = ({ query, summary }: SearchResultsProps) => {
         </div>
       )}
 
-      {/* <GoogleSearch query={query} /> */}
+      <GoogleSearch query={query} />
     </div>
   );
 };

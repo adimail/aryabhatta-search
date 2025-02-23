@@ -1,5 +1,6 @@
-// src/server/actions/search.ts
+"use server";
 
+import { env } from "@/env";
 export interface SearchResult {
   kind: string;
   title: string;
@@ -26,10 +27,10 @@ export interface SearchResponse {
   };
 }
 
-export async function fetchSearchResults(query: string): Promise<SearchResponse> {
-  const API_KEY = 'AIzaSyAzV1oWQUPIYe2srPjbxmlW63W0WzuWp7k';
-  const CSE_ID = '1177febd54db84a0f';
-  const url = `https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CSE_ID}&q=${encodeURIComponent(query)}`;
+export async function fetchSearchResults(
+  query: string,
+): Promise<SearchResponse> {
+  const url = `https://www.googleapis.com/customsearch/v1?key=${env.GOOGLE_SEARCH_API_KEY}&cx=${env.GOOGLE_SEARCH_CSE_ID}&q=${encodeURIComponent(query)}`;
 
   const res = await fetch(url, { next: { revalidate: 10 } });
   if (!res.ok) {
