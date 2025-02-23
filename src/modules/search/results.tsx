@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { env } from "@/env";
 import { useState, useEffect } from "react";
 import { GoogleSearch } from "./googlesearch";
 import { LLMReact } from "./llmreact";
@@ -22,43 +21,18 @@ export const SearchResults = ({ query, summary }: SearchResultsProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Replace with your SerpApi key
-  const SERP_API_KEY = env.SERP_API_KEY;
-
   useEffect(() => {
-    const fetchYandexImages = async () => {
-      setLoading(true);
-      setError(null);
-
-      try {
-        const response = await fetch(
-          `https://serpapi.com/search.json?engine=yandex_images&text=${encodeURIComponent(
-            query
-          )}&yandex_domain=yandex.com&api_key=${SERP_API_KEY}`
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch images from Yandex API");
-        }
-
-        const data = await response.json();
-        const imageResults = data.images_results || [];
-        setImages(
-          imageResults.map((img: any) => ({
-            thumbnail: img.thumbnail,
-            link: img.link,
-            title: img.title,
-          }))
-        );
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     if (query) {
-      fetchYandexImages();
+      setLoading(true);
+      fetch("/api/yandex-images?query=" + query).then((res) => {
+        res.json().then((data) => {
+          setImages(data.images_results);
+          setLoading(false);
+        });
+      }).catch((error) => {
+        setError(error.message);
+        setLoading(false);
+      });
     }
   }, [query]);
 
@@ -66,9 +40,8 @@ export const SearchResults = ({ query, summary }: SearchResultsProps) => {
     <div className="mt-5 w-full space-y-8">
       <LLMReact summary={summary} />
 
-      {/* Yandex Images Section */}
       <div className="yandex-images">
-        <h2 className="text-xl font-bold mb-4">Images from Yandex</h2>
+        <h2 className="text-xl font-bold mb-4">Images</h2>
         {loading && <p>Loading images...</p>}
         {error && <p className="text-red-500">{error}</p>}
         {!loading && !error && images.length === 0 && (
@@ -90,7 +63,6 @@ export const SearchResults = ({ query, summary }: SearchResultsProps) => {
         </div>
       </div>
 
-      {/* Uncomment if you still want Google Search */}
       {/* <GoogleSearch query={query} /> */}
     </div>
   );
