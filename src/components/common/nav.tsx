@@ -10,7 +10,6 @@ import {
 import { IoMenu } from "react-icons/io5";
 import {
   MessageSquare,
-  Box,
   GraduationCap,
   Book,
   History,
@@ -28,11 +27,11 @@ const NavLinks = [
     href: "/discussion",
     icon: MessageSquare,
   },
-  {
-    name: "3D Gallery",
-    href: "/gallery",
-    icon: Box,
-  },
+  // {
+  //   name: "3D Gallery",
+  //   href: "/gallery",
+  //   icon: Box,
+  // },
   {
     name: "Tests",
     href: "/tests",

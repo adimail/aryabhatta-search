@@ -11,7 +11,7 @@ export async function getGroqChatCompletion({ query }: { query: string }) {
     messages: [
       {
         role: "user",
-        content: generatePrompt(query, 5),
+        content: generatePrompt(query, 20),
       },
     ],
     model: config.LLM_MODEL,
@@ -22,13 +22,6 @@ export async function getGroqChatCompletion({ query }: { query: string }) {
   return response ?? "";
 }
 
-
 export const SearchResults = async ({ summary }: { summary: string }) => {
-
-
-  return (
-    <div className="mt-5 w-full space-y-4">
-      {summary}
-    </div>
-  );
+  return <div className="mt-5 w-full space-y-4">{summary}</div>;
 };

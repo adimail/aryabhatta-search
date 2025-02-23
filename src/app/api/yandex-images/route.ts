@@ -20,7 +20,11 @@ export async function GET(request: Request) {
 
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error("Failed to fetch from Yandex");
+      console.error("Failed to fetch from Yandex");
+      return NextResponse.json(
+        { error: "Failed to fetch from Yandex" },
+        { status: 500 },
+      );
     }
 
     const data = await response.json();

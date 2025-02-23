@@ -1,14 +1,8 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-import parseJson, { JSONError } from 'parse-json';
-import {
-  Search,
-  History,
-  Book,
-  ChevronDown,
-  ChevronRight,
-} from "lucide-react";
+import { useState, useEffect } from "react";
+import parseJson, { JSONError } from "parse-json";
+import { Book, ChevronDown, ChevronRight } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -66,70 +60,69 @@ export function AppSidebar({ query, summary }: AppSidebarProps) {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="md:mt-32">
-            {query}
-          </SidebarGroupLabel>
+          <SidebarGroupLabel className="md:mt-32">{query}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {parsedData?.Structure && (
-                Array.isArray(parsedData.Structure) ? (
-                  parsedData.Structure.map((structureItem, idx) => (
-                    Object.entries(structureItem).map(([category, items]) => (
-                      <SidebarMenuItem key={`${idx}-${category}`}>
-                        <Collapsible className="w-full">
-                          <CollapsibleTrigger asChild>
-                            <SidebarMenuButton className="w-full">
-                              <Book />
-                              <span>{category}</span>
-                              <ChevronDown className="ml-auto h-4 w-4" />
-                            </SidebarMenuButton>
-                          </CollapsibleTrigger>
-                          <CollapsibleContent>
-                            <ul className="ml-6 space-y-2 py-2">
-                              {Array.isArray(items) && items.map((item, index) => (
-                                <li
-                                  key={index}
-                                  className="cursor-pointer text-sm text-gray-600 hover:text-gray-900"
-                                >
-                                  <ChevronRight className="mr-2 inline-block h-4 w-4" />
-                                  {item}
-                                </li>
-                              ))}
-                            </ul>
-                          </CollapsibleContent>
-                        </Collapsible>
-                      </SidebarMenuItem>
-                    ))
-                  ))
-                ) : (
-                  Object.entries(parsedData.Structure).map(([category, items]) => (
-                    <SidebarMenuItem key={category}>
-                      <Collapsible className="w-full">
-                        <CollapsibleTrigger asChild>
-                          <SidebarMenuButton className="w-full">
-                            <Book />
-                            <span>{category}</span>
-                            <ChevronDown className="ml-auto h-4 w-4" />
-                          </SidebarMenuButton>
-                        </CollapsibleTrigger>
-                        <CollapsibleContent>
-                          <ul className="ml-6 space-y-2 py-2">
-                            {Array.isArray(items) && items.map((item, index) => (
-                              <li
-                                key={index}
-                                className="cursor-pointer text-sm text-gray-600 hover:text-gray-900"
-                              >
-                                <ChevronRight className="mr-2 inline-block h-4 w-4" />
-                                {item}
-                              </li>
-                            ))}
-                          </ul>
-                        </CollapsibleContent>
-                      </Collapsible>
-                    </SidebarMenuItem>
-                  ))
-                )
-              )}
+              {parsedData?.Structure &&
+                (Array.isArray(parsedData.Structure)
+                  ? parsedData.Structure.map((structureItem, idx) =>
+                      Object.entries(structureItem).map(([category, items]) => (
+                        <SidebarMenuItem key={`${idx}-${category}`}>
+                          <Collapsible className="w-full">
+                            <CollapsibleTrigger asChild>
+                              <SidebarMenuButton className="w-full">
+                                <Book />
+                                <span>{category}</span>
+                                <ChevronDown className="ml-auto h-4 w-4" />
+                              </SidebarMenuButton>
+                            </CollapsibleTrigger>
+                            <CollapsibleContent>
+                              <ul className="ml-6 space-y-2 py-2">
+                                {Array.isArray(items) &&
+                                  items.map((item, index) => (
+                                    <li
+                                      key={index}
+                                      className="cursor-pointer text-sm text-gray-600 hover:text-gray-900"
+                                    >
+                                      <ChevronRight className="mr-2 inline-block h-4 w-4" />
+                                      {item}
+                                    </li>
+                                  ))}
+                              </ul>
+                            </CollapsibleContent>
+                          </Collapsible>
+                        </SidebarMenuItem>
+                      )),
+                    )
+                  : Object.entries(parsedData.Structure).map(
+                      ([category, items]) => (
+                        <SidebarMenuItem key={category}>
+                          <Collapsible className="w-full">
+                            <CollapsibleTrigger asChild>
+                              <SidebarMenuButton className="w-full">
+                                <Book />
+                                <span>{category}</span>
+                                <ChevronDown className="ml-auto h-4 w-4" />
+                              </SidebarMenuButton>
+                            </CollapsibleTrigger>
+                            <CollapsibleContent>
+                              <ul className="ml-6 space-y-2 py-2">
+                                {Array.isArray(items) &&
+                                  items.map((item, index) => (
+                                    <li
+                                      key={index}
+                                      className="cursor-pointer text-sm text-gray-600 hover:text-gray-900"
+                                    >
+                                      <ChevronRight className="mr-2 inline-block h-4 w-4" />
+                                      {item}
+                                    </li>
+                                  ))}
+                              </ul>
+                            </CollapsibleContent>
+                          </Collapsible>
+                        </SidebarMenuItem>
+                      ),
+                    ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

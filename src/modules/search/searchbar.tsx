@@ -31,7 +31,6 @@ export function Searchbar() {
 
   return (
     <div className="w-full">
-      <p>Find anything you want to know about...</p>
       <form
         onSubmit={handleSubmit}
         className="mx-auto mb-5 mt-5 flex items-center overflow-hidden rounded-lg border-2 border-black bg-white p-2 md:p-3"
