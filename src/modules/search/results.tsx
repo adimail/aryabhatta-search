@@ -24,15 +24,17 @@ export const SearchResults = ({ query, summary }: SearchResultsProps) => {
   useEffect(() => {
     if (query) {
       setLoading(true);
-      fetch("/api/yandex-images?query=" + query).then((res) => {
-        res.json().then((data) => {
-          setImages(data.images_results);
+      fetch("/api/yandex-images?query=" + query)
+        .then((res) => {
+          res.json().then((data) => {
+            setImages(data.images_results);
+            setLoading(false);
+          });
+        })
+        .catch((error) => {
+          setError(error.message);
           setLoading(false);
         });
-      }).catch((error) => {
-        setError(error.message);
-        setLoading(false);
-      });
     }
   }, [query]);
 
@@ -40,28 +42,30 @@ export const SearchResults = ({ query, summary }: SearchResultsProps) => {
     <div className="mt-5 w-full space-y-8">
       <LLMReact summary={summary} />
 
-      <div className="yandex-images">
-        <h2 className="text-xl font-bold mb-4">Images</h2>
-        {loading && <p>Loading images...</p>}
-        {error && <p className="text-red-500">{error}</p>}
-        {!loading && !error && images.length === 0 && (
-          <p>No images found for "{query}"</p>
-        )}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {images.map((image, index) => (
-            <div key={index} className="border rounded overflow-hidden">
-              <a href={image.link} target="_blank" rel="noopener noreferrer">
-                <img
-                  src={image.thumbnail}
-                  alt={image.title}
-                  className="w-full h-48 object-cover"
-                />
-                <p className="p-2 text-sm truncate">{image.title}</p>
-              </a>
-            </div>
-          ))}
+      {images && images.length > 0 && (
+        <div className="yandex-images">
+          <h2 className="mb-4 text-xl font-bold">Images</h2>
+          {loading && <p>Loading images...</p>}
+          {error && <p className="text-red-500">{error}</p>}
+          {!loading && !error && images.length === 0 && (
+            <p>No images found for "{query}"</p>
+          )}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+            {images.map((image, index) => (
+              <div key={index} className="overflow-hidden rounded border">
+                <a href={image.link} target="_blank" rel="noopener noreferrer">
+                  <img
+                    src={image.thumbnail}
+                    alt={image.title}
+                    className="h-48 w-full object-cover"
+                  />
+                  <p className="truncate p-2 text-sm">{image.title}</p>
+                </a>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* <GoogleSearch query={query} /> */}
     </div>
