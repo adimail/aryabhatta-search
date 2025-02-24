@@ -12,6 +12,8 @@ The digital education space suffers from information overload and lack of releva
 
 Aryabhatta-Search is an AI-powered platform that unifies educational content across all academic levels. It combines a smart search engine, structured content organization, interactive 3D models, and community-driven learning to simplify discovery and enhance understanding.
 
+We built an educational search engine that helps users learn more effectively by generating clear, structured responses to their search queries. When a user looks something up, we create a summary tailored to their age and education level, highlighting important points. The responses are personalized based on the user’s previous searches, age, and educational status, and they power a book and study material recommendation system. For this, we use a machine learning algorithm (TfidfVectorizer) to suggest relevant courses based on the user’s search history.
+
 ![LLM response](./public/llm.jpeg)
 
 ## Features
@@ -25,11 +27,11 @@ Aryabhatta-Search is an AI-powered platform that unifies educational content acr
 
 ## Examples
 
-![Search results](./public/wow.jpeg)
+### LLM response for a search query "Aryabhatta"
 
-LLM response for a search query "Aryabhatta"
+![LLM response](./public/wow.jpeg)
 
-### Age 10, Education Level: 10th Grade
+### Age 10, Education Level: Preschool
 
 Summary:
 
@@ -69,13 +71,13 @@ Search results from search engine for the query "Aryabhatta" which includes link
 
 ## Tech Stack
 
-- Next.js 14 (App Router)
+- Next.js 15 (App Router)
 - TypeScript
 - Tailwind CSS
 - Prisma (ORM)
-- Supabase (Database)
+- Supabase (PostgreSQL Database)
 - NextAuth.js (Authentication)
-- Groq (LLM)
+- Groq (LLM Provider)
 - Google Custom Search API
 
 ## Prerequisites
