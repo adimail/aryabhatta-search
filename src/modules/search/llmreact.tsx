@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import parseJson, { JSONError } from "parse-json";
 import { useTypewriter } from "@/hooks/use-typewriter";
 import type { ParsedData, ChatCompletion } from "./types";
@@ -31,24 +31,21 @@ export const LLMReact = ({ summary }: { summary: ChatCompletion }) => {
     Array<{ category: string; items: string[] }>
   >([]);
   const [currentItem, setCurrentItem] = useState({ category: -1, item: -1 });
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  // Use typewriter for summary
   const [displayedText, isTypingSummary] = useTypewriter(
     parsedData?.summary ?? "",
     {
-      speed: 20,
+      speed: 3,
       delay: 0,
     },
   );
 
-  // Store raw summary for fallback
   const rawSummary = parsedData?.summary ?? "";
 
   useEffect(() => {
     const jsonData = summary.choices[0]?.message.content ?? "";
-    console.log("Raw LLM Response:", jsonData); // Debug raw input
     const parsed = parseData(jsonData);
-    console.log("Parsed Data:", parsed); // Debug parsed output
     setParsedData(parsed);
     setCurrentItem({ category: 0, item: 0 });
 
@@ -96,19 +93,23 @@ export const LLMReact = ({ summary }: { summary: ChatCompletion }) => {
   }
 
   return (
-    <div className="prose max-w-none">
-      <h2 className="mb-4 text-2xl font-semibold text-blue-600">Summary</h2>
+    <div className="prose max-w-none" ref={contentRef}>
+      <h2 id="summary" className="mb-4 text-2xl font-semibold text-blue-600">
+        Summary
+      </h2>
       <p className="mb-6 text-lg leading-relaxed text-gray-700">
-        {/* Ensure full summary is displayed once typing completes */}
         {isTypingSummary ? displayedText : rawSummary}
         {isTypingSummary && <span className="animate-pulse">|</span>}
       </p>
 
-      <h2 className="mb-4 text-2xl font-semibold text-blue-600">Structure</h2>
+      <h2 id="structure" className="mb-4 text-2xl font-semibold text-blue-600">
+        Structure
+      </h2>
       <div className="space-y-6">
         {displayedStructure.map((structure, categoryIdx) => (
           <div
             key={`${categoryIdx}-${structure.category}`}
+            id={`section-${structure.category.toLowerCase().replace(/\s+/g, "-")}`}
             className={`rounded-lg bg-white p-4 shadow ${
               categoryIdx <= currentItem.category
                 ? "animate-fadeIn"
@@ -126,7 +127,7 @@ export const LLMReact = ({ summary }: { summary: ChatCompletion }) => {
               {structure.items.map((item, itemIdx) => (
                 <li
                   key={itemIdx}
-                  className={`cursor-pointer transition-opacity duration-200 hover:text-blue-600 hover:underline ${
+                  className={` ${
                     categoryIdx < currentItem.category ||
                     (categoryIdx === currentItem.category &&
                       itemIdx <= currentItem.item)

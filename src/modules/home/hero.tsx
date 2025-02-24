@@ -1,25 +1,27 @@
 import React from "react";
+import Link from "next/link";
 import { SearchBar } from "./searchbar";
-import { TrendingTopics } from "./trendingtopics";
+// import { TrendingTopics } from "./trendingtopics";
 
 export const Hero = () => {
   return (
     <div className="">
-      <main className="container mx-auto px-4 md:py-12">
-        <section className="my-20 text-center">
+      <main className="container mx-auto px-4 md:pt-12">
+        <section className="my-10 text-center">
           <h2
-            className="mb-4 text-4xl font-bold md:text-5xl"
+            className="mb-4 text-2xl font-bold md:text-5xl"
             // style={{ fontFamily: "clepto" }}
           >
-            Aryabhatta Search
+            <Link href="/about" className="hover:underline">
+              Aryabhatta Search
+            </Link>
           </h2>
-          <p className="mb-8 text-lg text-gray-600">
-            Access millions of educational materials, courses, and research
-            papers in one place
+          <p className="mb-8 text-sm text-gray-600 md:text-lg">
+            Find the perfect resource for every question with Aryabhatta Search.
           </p>
           <SearchBar />
         </section>
-        <TrendingTopics />
+        {/* <TrendingTopics /> */}
       </main>
     </div>
   );

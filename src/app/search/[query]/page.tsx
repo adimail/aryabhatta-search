@@ -9,20 +9,27 @@ import { Searchbar } from "@/modules/search";
 import { getGroqChatCompletion } from "@/modules/search/llm";
 
 interface SearchPageProps {
-  params: Promise<{ query: string }>;
+  params: { query: string };
+  searchParams: {
+    age?: string;
+    educationalStatus?: string;
+  };
 }
 
 export async function generateMetadata({
   params,
 }: SearchPageProps): Promise<Metadata> {
-  const { query } = await params;
+  const { query } = params;
   return {
     title: `Search results for "${query}"`,
   };
 }
 
-export default async function SearchPage({ params }: SearchPageProps) {
-  const { query } = await params;
+export default async function SearchPage({
+  params,
+  searchParams,
+}: SearchPageProps) {
+  const { query } = params;
   const decodedQuery = decodeURIComponent(query);
   const badwords = new BadWordsNext({ data: en });
 
@@ -30,15 +37,22 @@ export default async function SearchPage({ params }: SearchPageProps) {
     throw new Error("Search query contains offensive language.");
   }
 
-  const summary = await getGroqChatCompletion({ query: decodedQuery });
+  const age = searchParams.age ? parseInt(searchParams.age) : undefined;
+  const educationalStatus = searchParams.educationalStatus;
+
+  const summary = await getGroqChatCompletion({
+    query: decodedQuery,
+    age: age ?? null,
+    educationalStatus: educationalStatus ?? null,
+  });
 
   return (
     <div className="flex min-h-screen">
       <SidebarProvider>
         <div className="flex flex-1">
           <AppSidebar query={decodedQuery} summary={summary} />
-          <main className="flex-1 p-5 overflow-auto">
-            <Searchbar />
+          <main className="flex-1 overflow-auto p-5">
+            <Searchbar userQuery={decodedQuery} />
             <SidebarTrigger />
             <SearchResults query={decodedQuery} summary={summary} />
           </main>

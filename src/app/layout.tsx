@@ -48,9 +48,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
       <SessionProvider>
-        <body className="mt-20 bg-gray-100 md:mt-32">
+        <body className="flex min-h-screen flex-col bg-gray-100 pt-20 md:pt-32">
           <Nav />
-          {children}
+          <main className="flex-grow">{children}</main>
           <Footer />
           <Toaster position="top-center" richColors />
         </body>

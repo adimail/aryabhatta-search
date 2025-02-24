@@ -17,6 +17,22 @@ export interface TestConfig {
   imageUrl?: string;
 }
 
+export interface Test {
+  id: string;
+  subject: string;
+  topic: string;
+  difficulty: string;
+  description: string;
+  duration: number;
+  questions: {
+    id: string;
+    question: string;
+    options: string[];
+    correctAnswer: string;
+    explanation: string;
+  }[];
+}
+
 export const testsConfig: TestConfig[] = [
   {
     id: "math-linear-algebra",

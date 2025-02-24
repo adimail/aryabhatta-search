@@ -6,12 +6,20 @@ import Groq from "groq-sdk";
 import * as config from "@/server/config";
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
-export async function getGroqChatCompletion({ query }: { query: string }) {
+export async function getGroqChatCompletion({
+  query,
+  age,
+  educationalStatus,
+}: {
+  query: string;
+  age: number | null;
+  educationalStatus: string | null;
+}) {
   const response = await groq.chat.completions.create({
     messages: [
       {
         role: "user",
-        content: generatePrompt(query, 20),
+        content: generatePrompt(query, age ?? 20, educationalStatus ?? ""),
       },
     ],
     model: config.LLM_MODEL,

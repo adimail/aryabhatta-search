@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -24,6 +26,7 @@ export const HistoryPage = ({ userId }: { userId: string }) => {
       const data = await response.json();
       setHistory(data);
     } catch (error) {
+      console.error("Failed to load search history:", error);
       toast.error("Failed to load search history");
     } finally {
       setIsLoading(false);
@@ -39,10 +42,11 @@ export const HistoryPage = ({ userId }: { userId: string }) => {
       });
 
       if (!response.ok) throw new Error("Failed to delete");
-      
-      setHistory(history.filter(item => item.id !== searchId));
+
+      setHistory(history.filter((item) => item.id !== searchId));
       toast.success("Search history item deleted");
     } catch (error) {
+      console.error("Failed to delete history item:", error);
       toast.error("Failed to delete history item");
     }
   };
@@ -52,12 +56,12 @@ export const HistoryPage = ({ userId }: { userId: string }) => {
   }, [userId]);
 
   if (isLoading) {
-    return <div className="text-center mt-8">Loading history...</div>;
+    return <div className="mt-8 text-center">Loading history...</div>;
   }
 
   if (history.length === 0) {
     return (
-      <div className="text-center mt-8 text-gray-500">
+      <div className="mt-8 text-center text-gray-500">
         No search history found
       </div>
     );

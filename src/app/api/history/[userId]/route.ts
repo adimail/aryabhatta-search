@@ -10,7 +10,7 @@ const searchQuerySchema = z.object({
 
 export async function GET(
   request: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: { userId: string } },
 ) {
   const session = await auth();
   if (!session?.user || session.user.id !== params.userId) {
@@ -25,21 +25,21 @@ export async function GET(
       orderBy: {
         timestamp: "desc",
       },
-      take: 10, // Limit to last 10 searches
+      take: 10,
     });
 
     return NextResponse.json(history);
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch history" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: { userId: string } },
 ) {
   const session = await auth();
   if (!session?.user || session.user.id !== params.userId) {
@@ -60,14 +60,14 @@ export async function DELETE(
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to delete history item" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function POST(
   request: Request,
-  { params }: { params: { userId: string } }
+  { params }: { params: { userId: string } },
 ) {
   const session = await auth();
   if (!session?.user || session.user.id !== params.userId) {
@@ -91,12 +91,12 @@ export async function POST(
     if (error instanceof z.ZodError) {
       return NextResponse.json(
         { error: "Invalid search query" },
-        { status: 400 }
+        { status: 400 },
       );
     }
     return NextResponse.json(
       { error: "Failed to save search history" },
-      { status: 500 }
+      { status: 500 },
     );
   }
-} 
+}

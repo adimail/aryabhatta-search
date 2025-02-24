@@ -1,6 +1,8 @@
 "use server";
 
 import { env } from "@/env";
+import { db } from "@/server/db";
+
 export interface SearchResult {
   kind: string;
   title: string;
@@ -40,4 +42,23 @@ export async function fetchSearchResults(
   // Explicitly cast the JSON response to SearchResponse.
   const data = (await res.json()) as SearchResponse;
   return data;
+}
+
+export async function getSearchHistory(userId: string) {
+  try {
+    const history = await db.searchHistory.findMany({
+      where: {
+        userId: userId,
+      },
+      orderBy: {
+        timestamp: "desc",
+      },
+      take: 50,
+    });
+
+    return history;
+  } catch (error) {
+    console.error("Error fetching search history:", error);
+    return [];
+  }
 }

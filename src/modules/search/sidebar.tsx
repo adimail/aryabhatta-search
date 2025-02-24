@@ -81,6 +81,21 @@ export function AppSidebar({ query, summary }: AppSidebarProps) {
     setParsedData(parseData(jsonData));
   }, [summary]);
 
+  const handleItemClick = (category: string) => {
+    const sectionId = `section-${category.toLowerCase().replace(/\s+/g, "-")}`;
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const offset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <Sidebar className="fixed left-0 top-0 h-screen w-64 border-r bg-gray-50 pt-32">
       <SidebarContent className="h-full">
@@ -104,7 +119,10 @@ export function AppSidebar({ query, summary }: AppSidebarProps) {
                               >
                                 <Collapsible className="w-full">
                                   <CollapsibleTrigger asChild>
-                                    <SidebarMenuButton className="h-fit w-full rounded-lg bg-gray-50 p-3 transition-colors hover:bg-gray-100">
+                                    <SidebarMenuButton
+                                      onClick={() => handleItemClick(category)}
+                                      className="h-fit w-full rounded-lg bg-gray-50 p-3 transition-colors hover:bg-gray-100"
+                                    >
                                       <Icon className="h-6 w-6" />
                                       <span className="ml-2 text-sm font-medium">
                                         {category}
@@ -118,6 +136,9 @@ export function AppSidebar({ query, summary }: AppSidebarProps) {
                                         items.map((item, index) => (
                                           <li
                                             key={index}
+                                            onClick={() =>
+                                              handleItemClick(category)
+                                            }
                                             className="group flex cursor-pointer items-center rounded-md px-2 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
                                           >
                                             <ChevronRight className="mr-2 h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -141,7 +162,10 @@ export function AppSidebar({ query, summary }: AppSidebarProps) {
                             <SidebarMenuItem key={category} className="mb-2">
                               <Collapsible className="w-full">
                                 <CollapsibleTrigger asChild>
-                                  <SidebarMenuButton className="w-full rounded-lg bg-gray-50 p-3 transition-colors hover:bg-gray-100">
+                                  <SidebarMenuButton
+                                    onClick={() => handleItemClick(category)}
+                                    className="w-full rounded-lg bg-gray-50 p-3 transition-colors hover:bg-gray-100"
+                                  >
                                     <Icon className="h-5 w-5" />
                                     <span className="ml-2 text-sm font-medium">
                                       {category}
@@ -155,6 +179,9 @@ export function AppSidebar({ query, summary }: AppSidebarProps) {
                                       items.map((item, index) => (
                                         <li
                                           key={index}
+                                          onClick={() =>
+                                            handleItemClick(category)
+                                          }
                                           className="group flex cursor-pointer items-center rounded-md px-2 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
                                         >
                                           <ChevronRight className="mr-2 h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />

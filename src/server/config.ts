@@ -1,4 +1,4 @@
-export const LLM_MODEL = "llama3-70b-8192";
+export const LLM_MODEL = "llama-3.3-70b-specdec";
 export const LLM_TEMPERATURE = 1;
 
 export const discussions = [

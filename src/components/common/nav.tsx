@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { auth } from "@/server/auth";
 import { AuthButtons } from "./auth-buttons";
+import { NavTitle } from "./navtitle";
 import {
   Sheet,
   SheetContent,
@@ -14,6 +15,7 @@ import {
   Book,
   History,
   Home,
+  Info,
 } from "lucide-react";
 
 const NavLinks = [
@@ -47,6 +49,11 @@ const NavLinks = [
     href: "/history",
     icon: History,
   },
+  {
+    name: "About",
+    href: "/about",
+    icon: Info,
+  },
 ];
 
 export const Nav = async () => {
@@ -54,7 +61,7 @@ export const Nav = async () => {
 
   return (
     <header className="fixed left-0 right-0 top-0 z-50 bg-white shadow-md">
-      <div className="container mx-auto flex items-center justify-between px-3 py-4 md:py-6">
+      <div className="mx-auto flex max-w-[1700px] items-center justify-between px-6 py-4">
         <Sheet>
           <SheetTrigger>
             <IoMenu size={30} />
@@ -83,9 +90,7 @@ export const Nav = async () => {
           </SheetContent>
         </Sheet>
 
-        <Link href="/" className="flex items-center">
-          <h1 className="text-lg font-bold md:text-2xl">Aryabhatta Search</h1>
-        </Link>
+        <NavTitle />
         <AuthButtons session={session} />
       </div>
     </header>
